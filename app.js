@@ -62,30 +62,23 @@ app.once('ready', () => {
         // 
         //
 
-
-        // 
-        // maybe something like this:
-        // 
-        // win.webContents.on('console-message', () => {
-        //  // do the shit to cloes the window like above
-        // })
-        // 
-        // create a specific message or something to know that shit's done, or listen to whatever
-        // https://electronjs.org/docs/api/web-contents#event-console-message
-        // 
-        // ipc.server.on('screenCastWindow_config', (data, socket) => {
-        //   const { extraScript, closeOnEnd } = data;
+         win.webContents.on('console-message', () => {
           
-        //   const doScript = `${extraScript} ${closeOnEnd ? autoCloseScript : ''}`;
-        //   screenCastWindow.webContents.executeJavaScript(doScript, true);
+        })
+         
+         ipc.server.on('screenCastWindow_config', (data, socket) => {
+           const { extraScript, closeOnEnd } = data;
+        
+           const doScript = `${extraScript} ${closeOnEnd ? autoCloseScript : ''}`;
+           screenCastWindow.webContents.executeJavaScript(doScript, true);
 
-        //   ipc.server.emit(socket, 'quit');
-        //   app.quit();
-        //   process.exit();
-        // });
+           ipc.server.emit(socket, 'quit');
+           app.quit();
+           process.exit();
+        });
 
-        // ipc.server.broadcast('screenCastWindow_shown', { show: true });
-
+        ipc.server.broadcast('screenCastWindow_shown', { show: true });
+        
       const autoCloseScript = `
 
       `;
